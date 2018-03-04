@@ -13,6 +13,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: Propaties
     @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var reserveBtn: UIBarButtonItem!
     
 
     override func viewDidLoad() {
@@ -31,12 +32,24 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    
     // WKNavigationDelegate Methods
+    // webView読み込み完了
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    }
+
+    // MARK: Actions
+    @IBAction func reserveClicked(_ sender: Any) {
+        checkReserve()
+    }
+    
+    // MARK: Private Actions
+    private func checkReserve() {
         webView.evaluateJavaScript(
-            "jQuery('#home-btn').attr('href');",
+            JavaScript.reserve,
             completionHandler: { (html, error) -> Void in
-                print(html as? String)
+                print(html)
+                print(html as? Bool)
         })
     }
 }
