@@ -14,8 +14,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // MARK: Propaties
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var reserveBtn: UIBarButtonItem!
+    var status: Status = .waiting
     
-
+    //MARK: Enum Propaties
+    enum Status: String {
+        case waiting = "waiting"
+        case reserve = "reserve"
+        case reserveConfirm = "reserveConfirm"
+        case move = "move"
+        case completed = "completed"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,10 +45,21 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // WKNavigationDelegate Methods
     // webView読み込み完了
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        switch status {
+        case .waiting:
+            break
+        case .reserve:
+            checkReserve()
+        case .reserveConfirm:
+            reserveComplete()
+        default:
+            break
+        }
     }
 
     // MARK: Actions
     @IBAction func reserveClicked(_ sender: Any) {
+        status = .reserve
         checkReserve()
     }
     
@@ -50,6 +70,27 @@ class ViewController: UIViewController, WKNavigationDelegate {
             completionHandler: { (html, error) -> Void in
                 print(html)
                 print(html as? Bool)
+                if (html as? Bool)! {
+                    self.status = .reserveConfirm
+                } else {
+                    self.webView.reload()
+                }
+        })
+    }
+    
+    private func reserveComplete() {
+        webView.evaluateJavaScript(
+            JavaScript.reserveComplete,
+            completionHandler: { (html, error) -> Void in
+                print(html)
+                print(html as? Bool)
+                if (html as? Bool)! {
+                    self.status = .completed
+                }
+                else {
+                    // 成功しない場合再実行？
+                    self.reserveComplete()
+                }
         })
     }
 }

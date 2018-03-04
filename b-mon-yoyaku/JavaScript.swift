@@ -20,11 +20,21 @@ struct JavaScript {
         
             // bagIdをinputに入れる
             jQuery('#your-reservation input[name=punchbag]').first().val(id);
-            // 完了をbackgroundに通知
-            chrome.runtime.sendMessage({greeting: "checkComplete"});
             // Submit
             jQuery('button[data-action=reserveByCourse]').first().prop('disabled', false).click();
         
+            result = true;
+        }
+        result;
+    """
+    // 新規予約完了
+    static let reserveComplete = """
+        var $completeBtn = jQuery('button[data-action=reserveComplete]');
+        var result = false;
+
+        if ($completeBtn.length > 0 ) {
+            // Submit
+            $completeBtn.first().click();
             result = true;
         }
         result;
