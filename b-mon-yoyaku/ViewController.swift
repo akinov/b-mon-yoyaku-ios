@@ -78,8 +78,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.evaluateJavaScript(
             JavaScript.reserve,
             completionHandler: { (html, error) -> Void in
-                print(html)
-                print(html as? Bool)
                 if (html as? Bool)! {
                     self.status = .reserveConfirm
                 } else {
@@ -92,8 +90,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.evaluateJavaScript(
             JavaScript.reserveComplete,
             completionHandler: { (html, error) -> Void in
-                print(html)
-                print(html as? Bool)
                 if (html as? Bool)! {
                     self.status = .completed
                 }
@@ -108,8 +104,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         webView.evaluateJavaScript(
             JavaScript.move,
             completionHandler: { (html, error) -> Void in
-                print(html)
-                print(html as? Bool)
                 if (html as? Bool)! {
                     self.status = .completed
                 } else {
