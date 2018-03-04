@@ -13,6 +13,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: Propaties
     @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var backBtn: UIBarButtonItem!
     @IBOutlet weak var reserveBtn: UIBarButtonItem!
     var status: Status = .waiting
     
@@ -28,7 +29,10 @@ class ViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         webView.navigationDelegate = self
+        backBtn.isEnabled = false
+        
+        webView.navigationDelegate = self
+        webView.allowsBackForwardNavigationGestures = true
         
         // 表示するWEBサイトのURLを設定
         let urlRequest = URLRequest(url: URL(string: Const.url)!)
@@ -45,6 +49,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // WKNavigationDelegate Methods
     // webView読み込み完了
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        backBtn.isEnabled = webView.canGoBack
+        
         switch status {
         case .waiting:
             break
@@ -71,6 +77,11 @@ class ViewController: UIViewController, WKNavigationDelegate {
             status = .reserve
             checkReserve()
         }
+    }
+    
+    @IBAction func backClicked(_ sender: Any) {
+        webView.goBack()
+        backBtn.isEnabled = webView.canGoBack
     }
     
     // MARK: Private Actions
