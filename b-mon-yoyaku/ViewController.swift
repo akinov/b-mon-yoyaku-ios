@@ -24,7 +24,6 @@ class ViewController: UIViewController, WKNavigationDelegate {
         case reserve = "reserve"
         case reserveConfirm = "reserveConfirm"
         case move = "move"
-        case completed = "completed"
     }
     
     override func viewDidLoad() {
@@ -115,7 +114,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             JavaScript.reserveComplete,
             completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
-                    self.status = .completed
+                    self.status = .pause
                 }
                 else {
                     // 成功しない場合再実行？
@@ -129,7 +128,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             JavaScript.move,
             completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
-                    self.status = .completed
+                    self.status = .pause
                 } else {
 //                    sleep(3)
                     self.webView.reload()
