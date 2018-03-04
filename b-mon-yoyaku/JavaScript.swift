@@ -39,4 +39,39 @@ struct JavaScript {
         }
         result;
     """
+    
+    // バッグ移動
+    static let move = """
+        // 空いているサンドバッグ一覧を取得
+        var $inputs = jQuery('.bag-check>input:not(:disabled)');
+        var wishedBagId = [
+            "38", "39", "40", "41", // "42",
+            "50", "51", "52",       // "53",
+            "63", "64", "65", "66", // "67",
+            "77", "78", "79", "80", // "81",
+            // "91", "92", "93", "94", "95", // 壁際除外
+        ];
+
+        if ($inputs.length > 0 ) {
+            var id = null;
+            $inputs.each(function(){
+                if (wishedBagId.includes(jQuery(this).attr('id').slice(-2))) {
+                    id = jQuery(this).attr('id').slice(-2);
+                    return false;
+                }
+            });
+
+            // 目的のバッグがない場合
+            if (id != null) {
+                // bagIdをinputに入れる
+                jQuery('#your-reservation input[name=punchbag]').first().val(id);
+                // Submit
+                jQuery('#your-reservation button[data-action=reserveMove]').first().prop('disabled', false).click();
+
+                result = true;
+            }
+        }
+
+        result;
+    """
 }

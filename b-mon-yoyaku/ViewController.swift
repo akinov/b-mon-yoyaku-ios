@@ -52,6 +52,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
             checkReserve()
         case .reserveConfirm:
             reserveComplete()
+        case .move:
+            checkMove()
         default:
             break
         }
@@ -59,8 +61,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: Actions
     @IBAction func reserveClicked(_ sender: Any) {
-        status = .reserve
-        checkReserve()
+        let url = webView.url!.absoluteString
+
+        if url.contains("move") {
+            status = .move
+            checkMove()
+        }
+        else if url.contains("reserve") {
+            status = .reserve
+            checkReserve()
+        }
     }
     
     // MARK: Private Actions
@@ -90,6 +100,21 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 else {
                     // 成功しない場合再実行？
                     self.reserveComplete()
+                }
+        })
+    }
+    
+    private func checkMove() {
+        webView.evaluateJavaScript(
+            JavaScript.move,
+            completionHandler: { (html, error) -> Void in
+                print(html)
+                print(html as? Bool)
+                if (html as? Bool)! {
+                    self.status = .completed
+                } else {
+//                    sleep(3)
+                    self.webView.reload()
                 }
         })
     }
