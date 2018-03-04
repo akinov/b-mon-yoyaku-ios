@@ -9,5 +9,5 @@
 import Foundation
 
 struct Const {
-    static let url = "https://www.b-monster.jp/"
+    static let url = "https://www.b-monster.jp/mypage/"
 }
