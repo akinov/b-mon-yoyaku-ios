@@ -104,7 +104,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 if (html as? Bool)! {
                     self.status = .reserveConfirm
                 } else {
-                    self.webView.reload()
+                    self.scheduledReload()
                 }
         })
     }
@@ -130,8 +130,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 if (html as? Bool)! {
                     self.status = .pause
                 } else {
-//                    sleep(3)
-                    self.webView.reload()
+                    self.scheduledReload()
                 }
         })
     }
@@ -154,6 +153,15 @@ class ViewController: UIViewController, WKNavigationDelegate {
             reserveBtn.isEnabled = false
             pauseBtn.isEnabled = false
         }
+    }
+    
+    private func scheduledReload() {
+        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(reloadWebView), userInfo: nil, repeats: false)
+    }
+    
+    @objc private func reloadWebView() {
+        if status == .pause { return }
+        webView.reload()
     }
 }
 
