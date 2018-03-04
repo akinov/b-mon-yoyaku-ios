@@ -39,7 +39,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let urlRequest = URLRequest(url: URL(string: Const.url)!)
         // webViewで表示するWEBサイトの読み込みを開始
         webView.load(urlRequest)
-        
+
         updateBtn()
     }
 
@@ -53,6 +53,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // webView読み込み完了
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         backBtn.isEnabled = webView.canGoBack
+        updateBtn()
         
         switch status {
         case .pause:
@@ -70,13 +71,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     // MARK: Actions
     @IBAction func reserveClicked(_ sender: Any) {
-        let url = webView.url!.absoluteString
+        guard let url = webView.url else { return }
+        let urlString = url.absoluteString
 
-        if url.contains("move") {
+        if urlString.contains("move") {
             status = .move
             checkMove()
         }
-        else if url.contains("reserve") {
+        else if urlString.contains("punchbag") {
             status = .reserve
             checkReserve()
         }
@@ -136,13 +138,22 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     private func updateBtn() {
-        if status == .pause {
-            reserveBtn.isEnabled = true
-            pauseBtn.isEnabled = false
+        guard let url = webView.url else { return }
+        let urlString = url.absoluteString
+
+        if urlString.contains("punchbag") || urlString.contains("move") {
+            if status == .pause {
+                reserveBtn.isEnabled = true
+                pauseBtn.isEnabled = false
+            }
+            else {
+                reserveBtn.isEnabled = false
+                pauseBtn.isEnabled = true
+            }
         }
         else {
             reserveBtn.isEnabled = false
-            pauseBtn.isEnabled = true
+            pauseBtn.isEnabled = false
         }
     }
 }
