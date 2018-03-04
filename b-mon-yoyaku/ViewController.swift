@@ -15,11 +15,12 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var backBtn: UIBarButtonItem!
     @IBOutlet weak var reserveBtn: UIBarButtonItem!
-    var status: Status = .waiting
+    @IBOutlet weak var pauseBtn: UIBarButtonItem!
+    var status: Status = .pause
     
     //MARK: Enum Propaties
     enum Status: String {
-        case waiting = "waiting"
+        case pause = "pause"
         case reserve = "reserve"
         case reserveConfirm = "reserveConfirm"
         case move = "move"
@@ -38,6 +39,8 @@ class ViewController: UIViewController, WKNavigationDelegate {
         let urlRequest = URLRequest(url: URL(string: Const.url)!)
         // webViewで表示するWEBサイトの読み込みを開始
         webView.load(urlRequest)
+        
+        updateBtn()
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,7 +55,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         backBtn.isEnabled = webView.canGoBack
         
         switch status {
-        case .waiting:
+        case .pause:
             break
         case .reserve:
             checkReserve()
@@ -77,6 +80,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
             status = .reserve
             checkReserve()
         }
+        
+        updateBtn()
+    }
+    
+    @IBAction func pauseClicked(_ sender: Any) {
+        status = .pause
+        updateBtn()
+
     }
     
     @IBAction func backClicked(_ sender: Any) {
@@ -122,6 +133,17 @@ class ViewController: UIViewController, WKNavigationDelegate {
                     self.webView.reload()
                 }
         })
+    }
+    
+    private func updateBtn() {
+        if status == .pause {
+            reserveBtn.isEnabled = true
+            pauseBtn.isEnabled = false
+        }
+        else {
+            reserveBtn.isEnabled = false
+            pauseBtn.isEnabled = true
+        }
     }
 }
 

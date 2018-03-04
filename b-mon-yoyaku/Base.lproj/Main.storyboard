@@ -32,7 +32,12 @@
                                             <action selector="reserveClicked:" destination="BYZ-38-t0r" id="q1b-1Q-8X2"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NPr-WJ-UNp"/>
+                                    <barButtonItem systemItem="pause" id="gpj-jm-93d">
+                                        <connections>
+                                            <action selector="pauseClicked:" destination="BYZ-38-t0r" id="rwx-Vm-l28"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="B1n-UH-k12"/>
                                 </items>
                             </toolbar>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L9s-l3-hy0">
@@ -58,6 +63,7 @@
                     </view>
                     <connections>
                         <outlet property="backBtn" destination="CGD-09-BPY" id="ivj-pb-Kkx"/>
+                        <outlet property="pauseBtn" destination="gpj-jm-93d" id="Skc-t2-XGm"/>
                         <outlet property="reserveBtn" destination="axG-yU-nd7" id="GHY-DI-59c"/>
                         <outlet property="webView" destination="L9s-l3-hy0" id="gwl-fw-wqg"/>
                     </connections>
