@@ -15,6 +15,7 @@
 		2D5FABD2204BDC74002BD9CA /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5FABD1204BDC74002BD9CA /* Const.swift */; };
 		2D5FABD4204BE918002BD9CA /* JavaScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5FABD3204BE918002BD9CA /* JavaScript.swift */; };
 		2DF3B005204D2F3900A3D661 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF3B004204D2F3900A3D661 /* TableViewController.swift */; };
+		2DF3B00D204D383900A3D661 /* BagRangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF3B00C204D383900A3D661 /* BagRangeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2D5FABD1204BDC74002BD9CA /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		2D5FABD3204BE918002BD9CA /* JavaScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScript.swift; sourceTree = "<group>"; };
 		2DF3B004204D2F3900A3D661 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		2DF3B00C204D383900A3D661 /* BagRangeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BagRangeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				2D5FABBF204BDB08002BD9CA /* AppDelegate.swift */,
 				2D5FABC1204BDB08002BD9CA /* WebViewController.swift */,
 				2D5FABC3204BDB08002BD9CA /* Main.storyboard */,
+				2DF3B00C204D383900A3D661 /* BagRangeViewController.swift */,
 				2DF3B004204D2F3900A3D661 /* TableViewController.swift */,
 				2D5FABC6204BDB08002BD9CA /* Assets.xcassets */,
 				2D5FABC8204BDB08002BD9CA /* LaunchScreen.storyboard */,
