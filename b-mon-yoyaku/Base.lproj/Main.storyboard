@@ -135,7 +135,7 @@
                             </barButtonItem>
                             <barButtonItem title="Reset" id="M1c-Ra-pli">
                                 <connections>
-                                    <action selector="resetBagRanges:" destination="HLX-ee-Bsv" id="7U8-Nq-R96"/>
+                                    <action selector="resetClicked:" destination="HLX-ee-Bsv" id="6N1-5U-PKG"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
