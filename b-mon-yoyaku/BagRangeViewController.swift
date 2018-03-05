@@ -1,6 +1,5 @@
 //
-//  BagRangeViewController
-.swift
+//  BagRangeViewController.swift
 //  b-mon-yoyaku
 //
 //  Created by akinov on 2018/03/05.
@@ -8,9 +7,12 @@
 //
 
 import UIKit
+import os.log
 
-class BagRangeViewController: UIViewController {
+class BagRangeViewController: UIViewController, UINavigationControllerDelegate {
     //MARK: Properties
+    @IBOutlet weak var startField: UITextField!
+    @IBOutlet weak var endField: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     var bagRange: BagRange?
@@ -18,7 +20,10 @@ class BagRangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        if let bagRange = bagRange {
+            startField.text   = bagRange.start.description
+            endField.text = bagRange.end.description
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,15 +33,35 @@ class BagRangeViewController: UIViewController {
     
 
     // MARK: - Navigation
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        dismiss(animated: true, completion: nil)
+        // Depending on style of presentation (modal or push presentation), this view controller needs to be dismissed in two different ways.
+        let isPresentingInAddMealMode = presentingViewController is UINavigationController
+        if isPresentingInAddMealMode {
+            dismiss(animated: true, completion: nil)
+        }
+        else if let owningNavigationController = navigationController{
+            owningNavigationController.popViewController(animated: true)
+        }
+        else {
+            fatalError("The MealViewController is not inside a navigation controller.")
+        }
     }
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("1")
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        super.prepare(for: segue, sender: sender)
+        
+        // Configure the destination view controller only when the save button is pressed.
+        guard let button = sender as? UIBarButtonItem, button === saveButton else {
+            os_log("The save button was not pressed, cancelling", log: OSLog.default, type: .debug)
+            return
+        }
+        
+        let start = Int(startField.text!)
+        let end = Int(endField.text!)
+        
+        // Set the bagRange to be passed to BagRangeTableViewController after the unwind segue.
+        bagRange = BagRange(start: start!, end: end!)
     }
-
 }
