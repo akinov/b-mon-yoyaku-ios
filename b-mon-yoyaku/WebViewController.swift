@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: Propaties
     @IBOutlet weak var webView: WKWebView!
@@ -124,8 +124,14 @@ class ViewController: UIViewController, WKNavigationDelegate {
     }
     
     private func checkMove() {
+        guard let savedBagRanges = loadBagRanges() else {
+            status = .pause
+            showNoBagRangeAlert()
+            return
+        }
+
         webView.evaluateJavaScript(
-            JavaScript.move,
+            String(format: JavaScript.move, bagRangeToStr(savedBagRanges)),
             completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
                     self.status = .pause
@@ -162,6 +168,27 @@ class ViewController: UIViewController, WKNavigationDelegate {
     @objc private func reloadWebView() {
         if status == .pause { return }
         webView.reload()
+    }
+    
+    private func loadBagRanges() -> [BagRange]? {
+        return NSKeyedUnarchiver.unarchiveObject(withFile: BagRange.ArchiveURL.path) as? [BagRange]
+    }
+    
+    private func showNoBagRangeAlert() {
+        let alertController = UIAlertController(title: "移動先バッグが未登録です", message: "右下のボタンを押して優先したい移動先を登録してください", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func bagRangeToStr(_ bagRanges: [BagRange]) -> String {
+        return bagRanges.map {
+            return Array(Int($0.start)...Int($0.end))
+            }.joined().map {
+                return String(format: "'%02d'", $0)
+            }.joined(separator: ",")
+        
     }
 }
 
