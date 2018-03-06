@@ -162,8 +162,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         }
 
         webView.evaluateJavaScript(
-            String(format: JavaScript.move, bagRangeToStr(savedBagRanges)),
-            completionHandler: { (html, error) -> Void in
+            String(format: JavaScript.move, bagRangeToStr(savedBagRanges)), completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
                     self.status = .pause
                     self.sendNotify(title: "移動完了", body: "バッグの移動が完了しました")
