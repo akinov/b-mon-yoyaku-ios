@@ -162,7 +162,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     private func scheduledReload() {
-        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(reloadWebView), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(reloadWebView), userInfo: nil, repeats: false)
     }
     
     @objc private func reloadWebView() {
