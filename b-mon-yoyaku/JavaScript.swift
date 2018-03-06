@@ -45,6 +45,7 @@ struct JavaScript {
         // 空いているサンドバッグ一覧を取得
         var $inputs = jQuery('.bag-check>input:not(:disabled)');
         var wishedBagId = [%@];
+        var result = false;
 
         if ($inputs.length > 0 ) {
             var id = null;
