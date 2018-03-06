@@ -16,6 +16,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var backBtn: UIBarButtonItem!
     @IBOutlet weak var reserveBtn: UIBarButtonItem!
     @IBOutlet weak var pauseBtn: UIBarButtonItem!
+    @IBOutlet weak var progressView: UIProgressView!
     var status: Status = .pause
     
     //MARK: Enum Propaties
@@ -34,12 +35,40 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView.navigationDelegate = self
         webView.allowsBackForwardNavigationGestures = true
         
+        
+        //読み込み状態が変更されたことを取得
+        self.webView.addObserver(self, forKeyPath: "loading", options: .new, context: nil)
+        //プログレスが変更されたことを取得
+        self.webView.addObserver(self, forKeyPath: "estimatedProgress", options: .new, context: nil)
+        
         // 表示するWEBサイトのURLを設定
         let urlRequest = URLRequest(url: URL(string: Const.url)!)
         // webViewで表示するWEBサイトの読み込みを開始
         webView.load(urlRequest)
 
         updateBtn()
+    }
+    
+    deinit{
+        //消さないと、アプリが落ちる
+        self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
+        self.webView.removeObserver(self, forKeyPath: "loading")
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress"{
+            //estimatedProgressが変更されたときに、setProgressを使ってプログレスバーの値を変更する。
+            self.progressView.setProgress(Float(self.webView.estimatedProgress), animated: true)
+        }
+        else if keyPath == "loading"{
+            UIApplication.shared.isNetworkActivityIndicatorVisible = self.webView.isLoading
+            if self.webView.isLoading {
+                self.progressView.setProgress(0.1, animated: true)
+            }else{
+                //読み込みが終わったら0に
+                self.progressView.setProgress(0.0, animated: false)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
