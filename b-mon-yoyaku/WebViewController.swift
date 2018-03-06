@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import UserNotifications
 
 class WebViewController: UIViewController, WKNavigationDelegate {
     
@@ -144,6 +145,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
                     self.status = .pause
+                    self.sendNotify(title: "予約完了", body: "予約が完了しました")
                 }
                 else {
                     // 成功しない場合再実行？
@@ -164,6 +166,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             completionHandler: { (html, error) -> Void in
                 if (html as? Bool)! {
                     self.status = .pause
+                    self.sendNotify(title: "移動完了", body: "バッグの移動が完了しました")
                 } else {
                     self.scheduledReload()
                 }
@@ -217,6 +220,17 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             }.joined().map {
                 return String(format: "'%02d'", $0)
             }.joined(separator: ",")
+    }
+    
+    private func sendNotify(title: String, body: String) {
+        let center = UNUserNotificationCenter.current()
+        let content = UNMutableNotificationContent()
+        content.title = title;
+        content.body = body;
+        content.sound = UNNotificationSound.default()
+        let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest.init(identifier: "ReservedNotification", content: content, trigger: trigger)
+        center.add(request)
         
     }
 }
