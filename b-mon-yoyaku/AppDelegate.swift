@@ -17,6 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // 勝手にスリープしないように
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         // notification center (singleton)
         let center = UNUserNotificationCenter.current()
         
