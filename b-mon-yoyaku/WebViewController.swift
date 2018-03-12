@@ -122,6 +122,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     @IBAction func backClicked(_ sender: Any) {
+        // 戻る場合は予約を停止する
+        status = .pause
+        
         webView.goBack()
         backBtn.isEnabled = webView.canGoBack
     }
@@ -190,6 +193,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             reserveBtn.isEnabled = false
             pauseBtn.isEnabled = false
         }
+    }
+    
+    private func isReservable() -> Bool {
+        guard let url = webView.url else { return false }
+        let urlString = url.absoluteString
+        return urlString.contains("punchbag") || urlString.contains("move")
     }
     
     private func scheduledReload() {
